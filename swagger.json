@@ -1,0 +1,1257 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": " 类型分为四大类：\n 1：短视频 2：长视频 3：短音频 4：长音频 （后期：5：视频直播 6：音频直播 。。。。）\n\n如果属于 剧集、节目，会有合集 \n 合集id \n\n一级垂类：\n 1：剧集 2：节目 3：电影 。。。。\n 二级垂类：\n 1：剧集：a：音乐 b：夜话 。。。。\n 2：节目：a：娱乐 b：新闻。。。",
+    "version": "1.0.0",
+    "title": "GVideo"
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "init",
+      "description": "初始化 App"
+    },
+    {
+      "name": "index",
+      "description": "首页"
+    },
+    {
+      "name": "search",
+      "description": "搜索"
+    },
+    {
+      "name": "video",
+      "description": "视频"
+    },
+    {
+      "name": "fm",
+      "description": "音频"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/init": {
+      "get": {
+        "tags": [
+          "init"
+        ],
+        "summary": "初始化，mainTab 第一期本地写死，后期会通过后台配置",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "$ref": "#/definitions/Init"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/init/update": {
+      "get": {
+        "tags": [
+          "init"
+        ],
+        "summary": "版本更新",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "$ref": "#/definitions/Update"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/init/launchAd": {
+      "get": {
+        "tags": [
+          "init"
+        ],
+        "summary": "开屏广告图",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "width",
+            "in": "query",
+            "description": "屏幕宽度",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "description": "屏幕高度",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/LaunchAd"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/index/home": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "首页数据",
+        "parameters": [
+          {
+            "name": "pcursor",
+            "in": "query",
+            "description": "数据位置标识，首次请求不需要该参数，值为上次返回字段 pcursor 的值",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "$ref": "#/definitions/Home"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "搜索",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "参数不传，接口需要返回 tabs 类型 1：短作品 2：专栏 3：电影 4：节目 5：剧集",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "description": "搜索内容",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "$ref": "#/definitions/SearchData"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/video/tabs": {
+      "get": {
+        "tags": [
+          "video"
+        ],
+        "summary": "视频垂类",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/VideoTab"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/video/feed": {
+      "get": {
+        "tags": [
+          "video"
+        ],
+        "summary": "视频流",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "类型 0：推荐 1：情感 2：社会",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pcursor",
+            "in": "query",
+            "description": "数据位置标识，首次请求不需要该参数，值为上次返回字段 pcursor 的值",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "$ref": "#/definitions/VideoList"
+                        },
+                        "pcursor": {
+                          "type": "string",
+                          "description": "数据位置标识"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/video/comment/{videoId}": {
+      "get": {
+        "tags": [
+          "video"
+        ],
+        "summary": "评论",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "1：短视频 2：长视频",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "videoId",
+            "in": "path",
+            "description": "视频id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "$ref": "#/definitions/Comment"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/fm/tabs": {
+      "get": {
+        "tags": [
+          "fm"
+        ],
+        "summary": "音频垂类",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/FMTab"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/fm/feed": {
+      "get": {
+        "tags": [
+          "fm"
+        ],
+        "summary": "搜索",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "类型 0：推荐 1：情感 2：社会",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pcursor",
+            "in": "query",
+            "description": "数据位置标识，首次请求不需要该参数，值为上次返回字段 pcursor 的值",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "$ref": "#/definitions/FMList"
+                        },
+                        "pcursor": {
+                          "type": "string",
+                          "description": "数据位置标识"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/fm/comment/{videoId}": {
+      "get": {
+        "tags": [
+          "fm"
+        ],
+        "summary": "评论",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "3：短音频 4：长音频",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "videoId",
+            "in": "path",
+            "description": "视频id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Common"
+                },
+                {
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "$ref": "#/definitions/Comment"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Common": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "0：成功 其他错误码待定：10000+"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Init": {
+      "type": "object",
+      "properties": {
+        "mainTabs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MainTab"
+          }
+        }
+      }
+    },
+    "MainTab": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1：首页 2：视频 3：FM 4：我的"
+        },
+        "title": {
+          "type": "string",
+          "example": "首页",
+          "description": "tabbar title"
+        },
+        "imageNormalUrl": {
+          "type": "string",
+          "description": "非选中状态下 tabbar icon"
+        },
+        "imageSelectedUrl": {
+          "type": "string",
+          "description": "选中状态下 tabbbar icon"
+        },
+        "isActivity": {
+          "type": "boolean",
+          "description": "是否是活动状态"
+        },
+        "needLogin": {
+          "type": "boolean",
+          "description": "是否需要登录"
+        },
+        "actUrl": {
+          "type": "string",
+          "description": "页面地址"
+        },
+        "modalStyle": {
+          "type": "integer",
+          "description": "0：正常切换 1：侧边滑出"
+        }
+      }
+    },
+    "Update": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "example": "1.0.0",
+          "description": "版本号"
+        },
+        "apkMD5": {
+          "type": "string",
+          "description": "安卓 apk MD5 文件，检验完整性"
+        },
+        "apkUrl": {
+          "type": "string",
+          "description": "安卓 apk 下载地址"
+        },
+        "updateType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "0：弱更新，不弹更新弹窗 1：普通更新，更新弹窗可关闭 2：强制更新，更新弹窗不可关闭"
+        },
+        "updateTitle": {
+          "type": "string",
+          "example": "V1.0.1 版本为您做了这些：",
+          "description": "更新弹窗标题"
+        },
+        "updateContent": {
+          "type": "string",
+          "example": "V1.0.1 版本为您做了这些：",
+          "description": "更新弹窗标题"
+        },
+        "updateImageUrl": {
+          "type": "string",
+          "example": "1.新增xxx功能；\n2.修复一些已知问题。",
+          "description": "更新弹窗内容"
+        },
+        "updateUrl": {
+          "type": "string",
+          "description": "iOS appStore 地址"
+        }
+      }
+    },
+    "LaunchAd": {
+      "type": "object",
+      "properties": {
+        "adImageMD5": {
+          "type": "string",
+          "description": "广告图 MD5，校验完整性"
+        },
+        "adImageUrl": {
+          "type": "string",
+          "description": "广告图链接"
+        },
+        "adUrl": {
+          "type": "string",
+          "description": "广告跳转链接"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1573315200,
+          "description": "开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1573315200,
+          "description": "结束时间"
+        },
+        "isShowJump": {
+          "type": "boolean",
+          "description": "是否展示跳过按钮"
+        }
+      }
+    },
+    "Home": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HomeList"
+          }
+        },
+        "pcursor": {
+          "type": "string",
+          "description": "数据标识"
+        }
+      }
+    },
+    "HomeList": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "type": "integer",
+              "description": "1：短视频 2：长视频 3：短音频 4：长音频 100：推荐内容 101：图片广告位 102：web广告位"
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/HomeListItem"
+        }
+      ]
+    },
+    "HomeListItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "fm id"
+        },
+        "collectionId": {
+          "type": "string",
+          "description": "合集 id，属于剧集、节目的返回，详情页是否展示往期回顾"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "封面图片地址"
+        },
+        "url": {
+          "type": "array",
+          "description": "音视频地址",
+          "items": {
+            "type": "string"
+          }
+        },
+        "width": {
+          "type": "number",
+          "description": "宽"
+        },
+        "height": {
+          "type": "number",
+          "description": "高"
+        },
+        "tag": {
+          "$ref": "#/definitions/Tag"
+        },
+        "pendant": {
+          "type": "object",
+          "description": "挂件",
+          "properties": {
+            "imageUrl": {
+              "type": "string"
+            },
+            "actUrl": {
+              "type": "string",
+              "description": "页面地址"
+            }
+          }
+        },
+        "author": {
+          "$ref": "#/definitions/Author"
+        },
+        "reviews": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评论数"
+        },
+        "shareUrl": {
+          "type": "string",
+          "description": "分享链接"
+        }
+      }
+    },
+    "Author": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "作者id"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "头像地址"
+        },
+        "name": {
+          "type": "string",
+          "description": "名字"
+        },
+        "intro": {
+          "type": "string",
+          "description": "作者简介"
+        },
+        "isFollow": {
+          "type": "boolean",
+          "description": "关注"
+        }
+      }
+    },
+    "Recommends": {
+      "type": "object",
+      "properties": {
+        "recommend": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "imageUrl": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "btnTitle": {
+                "type": "string"
+              },
+              "actUrl": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ImageAD": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number",
+          "description": "图片宽"
+        },
+        "height": {
+          "type": "number",
+          "description": "图片高"
+        },
+        "actUrl": {
+          "type": "string",
+          "description": "链接地址"
+        }
+      }
+    },
+    "WebAD": {
+      "type": "object",
+      "properties": {
+        "webUrl": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number",
+          "description": "web 宽"
+        },
+        "height": {
+          "type": "number",
+          "description": "web 高"
+        }
+      }
+    },
+    "SearchTabs": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1：短作品 2：专栏 3：电影 4：节目 5：剧集"
+        },
+        "title": {
+          "type": "string",
+          "example": "短作品/专栏/电影/节目/剧集"
+        }
+      }
+    },
+    "SearchData": {
+      "type": "object",
+      "properties": {
+        "tabs": {
+          "type": "array",
+          "description": "无请求参数type时，需返回该字段",
+          "items": {
+            "$ref": "#/definitions/SearchTabs"
+          }
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "properties": {
+                  "type": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "1：短作品 2：专栏 3：电影 4：节目 5：剧集"
+                  }
+                }
+              },
+              {
+                "$ref": "#/definitions/ShortWorks"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ShortWorks": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "description": "1：视频 2：音频"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "封面图片"
+        },
+        "tag": {
+          "$ref": "#/definitions/Tag"
+        },
+        "author": {
+          "$ref": "#/definitions/Author"
+        }
+      }
+    },
+    "Column": {
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "type": "string",
+          "description": "头像"
+        },
+        "name": {
+          "type": "string",
+          "description": "昵称"
+        },
+        "intro": {
+          "type": "string",
+          "description": "介绍"
+        },
+        "fans": {
+          "type": "integer",
+          "format": "int64",
+          "description": "粉丝量"
+        },
+        "isFollow": {
+          "type": "boolean",
+          "description": "是否关注"
+        }
+      }
+    },
+    "Movie": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "description": "预览图"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        }
+      }
+    },
+    "Program": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "description": "预览图"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "lastUpdateTime": {
+          "type": "string",
+          "description": "最后更新时间"
+        },
+        "tag": {
+          "$ref": "#/definitions/Tag"
+        }
+      }
+    },
+    "Episode": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "description": "预览图"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "lastUpdateTime": {
+          "type": "string",
+          "description": "最后更新时间"
+        },
+        "tag": {
+          "$ref": "#/definitions/Tag"
+        }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "description": "角标",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "description": "1：视频 2：音频 3：直播"
+        },
+        "text": {
+          "type": "string",
+          "example": "音频/视频/预告片"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "description": "评论",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "time": {
+          "type": "string",
+          "description": "评论时间"
+        },
+        "content": {
+          "type": "string",
+          "description": "评论内容"
+        },
+        "replyList": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "user": {
+                "$ref": "#/definitions/User"
+              },
+              "replyUser": {
+                "$ref": "#/definitions/User"
+              },
+              "repayContent": {
+                "type": "string",
+                "description": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "description": "用户信息",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "用户id"
+        },
+        "nickName": {
+          "type": "string",
+          "description": "用户昵称"
+        }
+      }
+    },
+    "Video": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1: 短视频 1：长视频"
+        },
+        "id": {
+          "type": "string",
+          "description": "fm id"
+        },
+        "collectionId": {
+          "type": "string",
+          "description": "合集 id，属于剧集、节目的返回，详情页是否展示往期回顾"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "视频封面图片地址"
+        },
+        "url": {
+          "type": "array",
+          "description": "视频地址",
+          "items": {
+            "type": "string"
+          }
+        },
+        "width": {
+          "type": "number",
+          "description": "宽"
+        },
+        "height": {
+          "type": "number",
+          "description": "高"
+        },
+        "tag": {
+          "$ref": "#/definitions/Tag"
+        },
+        "pendant": {
+          "type": "object",
+          "description": "扩展功能",
+          "properties": {
+            "imageUrl": {
+              "type": "string"
+            },
+            "actUrl": {
+              "type": "string",
+              "description": "页面地址"
+            }
+          }
+        },
+        "author": {
+          "$ref": "#/definitions/Author"
+        },
+        "reviews": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评论数"
+        },
+        "shareUrl": {
+          "type": "string",
+          "description": "分享链接"
+        }
+      }
+    },
+    "FM": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "3: 短音频 4：长音频"
+        },
+        "id": {
+          "type": "string",
+          "description": "fm id"
+        },
+        "collectionId": {
+          "type": "string",
+          "description": "合集 id，属于剧集、节目的返回，详情页是否展示往期回顾"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "视频封面图片地址"
+        },
+        "url": {
+          "type": "array",
+          "description": "音频地址",
+          "items": {
+            "type": "string"
+          }
+        },
+        "width": {
+          "type": "number",
+          "description": "宽"
+        },
+        "height": {
+          "type": "number",
+          "description": "高"
+        },
+        "tag": {
+          "$ref": "#/definitions/Tag"
+        },
+        "pendant": {
+          "type": "object",
+          "description": "扩展功能",
+          "properties": {
+            "imageUrl": {
+              "type": "string"
+            },
+            "actUrl": {
+              "type": "string",
+              "description": "页面地址"
+            }
+          }
+        },
+        "author": {
+          "$ref": "#/definitions/Author"
+        },
+        "reviews": {
+          "type": "integer",
+          "format": "int64",
+          "description": "评论数"
+        },
+        "shareUrl": {
+          "type": "string",
+          "description": "分享链接"
+        }
+      }
+    },
+    "VideoTab": {
+      "type": "object",
+      "description": "视频垂类",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "description": "0：推荐 1：情感 2：社会"
+        },
+        "title": {
+          "type": "string",
+          "example": "推荐/情感/社会"
+        }
+      }
+    },
+    "VideoList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Video"
+      }
+    },
+    "FMTab": {
+      "type": "object",
+      "description": "fm垂类",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "description": "0：推荐 1：情感 2：社会"
+        },
+        "title": {
+          "type": "string",
+          "example": "推荐/情感/社会"
+        }
+      }
+    },
+    "FMList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FM"
+      }
+    }
+  }
+}
